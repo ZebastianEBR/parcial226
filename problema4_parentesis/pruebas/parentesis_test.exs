@@ -4,6 +4,8 @@ defmodule Parcial2.ParentesisTest do
 
   alias Parcial2.Parentesis
 
+  defp datos(nombre), do: Path.expand("../" <> nombre, __DIR__)
+
   test "n=3, p=2 produce las 4 cadenas esperadas, en orden" do
     assert Enum.to_list(Parentesis.generar(3, 2)) ==
              ["(()())", "(())()", "()(())", "()()()"]
@@ -58,7 +60,7 @@ defmodule Parcial2.ParentesisTest do
 
   @tag :tmp_dir
   test "ejecutar con datos válidos escribe los archivos", %{tmp_dir: tmp} do
-    capture_io(fn -> Parentesis.ejecutar("datos", tmp) end)
+    capture_io(fn -> Parentesis.ejecutar(datos("datos"), tmp) end)
 
     assert File.read!(Path.join(tmp, "parentesis_n3_p2.txt")) ==
              "(()())\n(())()\n()(())\n()()()\nTotal: 4\n"
@@ -72,7 +74,7 @@ defmodule Parcial2.ParentesisTest do
 
   @tag :tmp_dir
   test "datos inválidos se reportan sin excepción", %{tmp_dir: tmp} do
-    errores = capture_io(:stderr, fn -> capture_io(fn -> Parentesis.ejecutar("datos_invalidos", tmp) end) end)
+    errores = capture_io(:stderr, fn -> capture_io(fn -> Parentesis.ejecutar(datos("datos_invalidos"), tmp) end) end)
     assert errores =~ "línea 2"
     assert File.exists?(Path.join(tmp, "parentesis_n3_p2.txt"))
     refute File.exists?(Path.join(tmp, "parentesis_n0_p1.txt"))
@@ -80,7 +82,7 @@ defmodule Parcial2.ParentesisTest do
 
   @tag :tmp_dir
   test "carpeta inexistente muestra aviso", %{tmp_dir: tmp} do
-    errores = capture_io(:stderr, fn -> capture_io(fn -> Parentesis.ejecutar("no_existe", tmp) end) end)
+    errores = capture_io(:stderr, fn -> capture_io(fn -> Parentesis.ejecutar(datos("no_existe"), tmp) end) end)
     assert errores =~ "AVISO"
   end
 end

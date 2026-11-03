@@ -1,6 +1,8 @@
 defmodule Parcial2.Tareas do
   @moduledoc """
-  Problema 2: planificación de tareas con dependencias.
+  PROBLEMA 2: planificación de tareas con dependencias.
+
+  Se ejecuta con `elixir problema2_tareas/principal.exs`.
 
   Flujo: leer `tareas.csv` en flujo -> validar recursivamente -> si la red es
   válida, enumerar recursivamente todos los órdenes posibles escribiendo cada

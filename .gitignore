@@ -1,3 +1,6 @@
-/salida/
+/problema2_tareas/salida/
+/problema4_parentesis/salida/
 /tmp/
+/problema2_tareas/tmp/
+/problema4_parentesis/tmp/
 erl_crash.dump

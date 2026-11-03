@@ -1,6 +1,8 @@
 defmodule Parcial2.Parentesis do
   @moduledoc """
-  Problema 4: secuencias de paréntesis balanceados con profundidad máxima.
+  PROBLEMA 4: secuencias de paréntesis balanceados con profundidad máxima.
+
+  Se ejecuta con `elixir problema4_parentesis/principal.exs`.
 
   - `generar/2` produce un Stream perezoso y recursivo de soluciones.
   - `motivos/3` valida recursivamente una cadena propuesta.

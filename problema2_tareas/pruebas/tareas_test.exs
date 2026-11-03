@@ -6,13 +6,15 @@ defmodule Parcial2.TareasTest do
   alias Parcial2.Tareas
   alias Parcial2.Tareas.Validacion
 
+  defp datos(nombre), do: Path.expand("../" <> nombre, __DIR__)
+
   defp ejecutar(datos, salida) do
     capture_io(:stderr, fn -> capture_io(fn -> Tareas.ejecutar(datos, salida) end) end)
   end
 
   @tag :tmp_dir
   test "caso válido: dos planes, penalización mínima 4", %{tmp_dir: tmp} do
-    ejecutar("datos", tmp)
+    ejecutar(datos("datos"), tmp)
 
     assert File.read!(Path.join(tmp, "planes.csv")) ==
              "id;orden;duracion_total;penalizacion\n" <>
@@ -30,7 +32,7 @@ defmodule Parcial2.TareasTest do
 
   @tag :tmp_dir
   test "caso inválido: se reportan todos los problemas y no hay planes", %{tmp_dir: tmp} do
-    ejecutar("datos_invalidos", tmp)
+    ejecutar(datos("datos_invalidos"), tmp)
     validacion = File.read!(Path.join(tmp, "validacion_tareas.txt"))
 
     assert validacion =~ "duplicado"
@@ -44,14 +46,14 @@ defmodule Parcial2.TareasTest do
 
   @tag :tmp_dir
   test "caso límite: proyecto vacío", %{tmp_dir: tmp} do
-    ejecutar("datos_limite", tmp)
+    ejecutar(datos("datos_limite"), tmp)
     assert File.read!(Path.join(tmp, "planes.csv")) == "id;orden;duracion_total;penalizacion\n"
     assert File.read!(Path.join(tmp, "resumen_tareas.txt")) =~ "Proyecto vacío"
   end
 
   @tag :tmp_dir
   test "archivo faltante muestra aviso", %{tmp_dir: tmp} do
-    assert ejecutar("no_existe", tmp) =~ "AVISO"
+    assert ejecutar(datos("no_existe"), tmp) =~ "AVISO"
   end
 
   test "validación: dos ciclos distintos, cada uno una sola vez" do
